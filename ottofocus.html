@@ -1,0 +1,150 @@
+<head>
+  <title>ottofocus</title>
+</head>
+<body>
+
+  <div class='container'>
+  {{loginButtons}}
+
+  {{#if currentUser }}
+    {{> current_task}}
+    {{> new_task }}
+
+    {{> task_history }} 
+
+  {{else}}
+    <div class='hero-unit'> 
+    <h1>Please log in. You'll like it, I promise.</h1>
+    {{> what_is_this }} 
+    </div>
+  {{/if}}
+  </div>
+
+</body>
+
+<template name="task">
+  <div class='task'>{{description}}</div>
+</template>
+
+<template name="task_list">
+  <li class='task {{status}} {{#if selected}}selected{{/if}}'>{{description}}</li>
+</template>
+
+<template name="current_task">
+  {{#if task}}
+  <div class='row-fluid'>
+  <div class='span12 current_task hero-unit'> 
+    <h1> {{#unless isReview}}You Should:{{/unless}} {{#if isReview}}Review:{{/if}}  </h1>
+      {{#with task}}
+        {{>task}}
+      {{/with}}
+      
+      <div class="btn-group">
+      <button type='button' class='delete btn btn-danger'><i class="icon-fire icon-white"></i> Delete</button>
+      {{#unless isReview}}
+      <button type='button' class='skip btn btn-warning'><i class="icon-repeat icon-white"></i> Do it Later</button>
+      <button type='button' class='worked_on btn btn-inverse'><i class="icon-refresh icon-white"></i> Worked On</button>
+      <button type='button' class='done btn btn-success'><i class="icon-check icon-white"></i> Done</button>
+      {{/unless}}
+      </div>
+      {{#if isReview}}
+      <p><small> If you want to keep this task, you're going to have to copy it. <strong>Feel the shame.</strong> </small></p>
+      {{/if}}
+  </div>
+  </div>
+  {{/if}}
+</template>
+
+<template name="task_history">
+  <div class='row-fluid'>
+
+    {{#if both}}
+    <div class="span4">
+      <h2> What is This? </h2>
+      {{> what_is_this }}
+    </div>
+
+    <div class="span4">
+      <h2> All </h2>
+      {{> all_tasks }}
+    </div>
+
+    <div class="span4">
+      <h2> Completed </h2>
+      {{> all_completed_tasks }}
+    </div>
+    {{else}}
+      <div class="span8">
+        <h2> What is This? </h2>
+        {{> what_is_this }}
+      </div>
+
+      {{#if other_tasks }}
+        <div class="span4">
+          <h2> All </h2>
+          {{> all_tasks }}
+        </div>
+      {{/if}}
+
+      {{#if completed_tasks }}
+        <div class="span4">
+          <h2> Completed </h2>
+          {{> all_completed_tasks }}
+        </div>
+      {{/if}}
+
+    {{/if}} 
+
+
+  </div> 
+</template>
+
+<template name="what_is_this">
+  <p> AutoFocus 4 is a personal task-management system in the vein same vein as productivity management tools like 
+  "Getting Things Done" or "Thomas Limoncelli's Organizational Pad" or "Getting the Done Things Did" or "Just a Simple To-Do List". 
+  <p> You put in tasks, decide whether to skip, work on, or complete them, and eventually things Get Done. </p>
+  <p> There's a complete description of the algorithm <a href="http://tarot.alecsatin.com/autofocus4/">here</a> </p>
+  <p> As for this software, OttoFocus was built in a day, using <a href="http://meteor.com/">Meteor.js</a>. It's the first thing I've 
+  ever built in Meteor.js. </p>
+</template>
+
+<template name="last_task">
+  {{#with task}}
+    {{>task}}
+  {{/with}}
+</template> 
+
+<template name="all_tasks">
+  <ul class='all_tasks'>
+  {{#each tasks}}
+    {{> task_list}}
+  {{/each}}
+  </ul>
+</template>
+
+<template name="all_completed_tasks">
+  <ul class='all_completed'>
+  {{#each completed_tasks}}
+    {{> task_list}}
+  {{/each}}
+  </ul>
+</template>
+
+<template name="new_task">
+  <div class='row-fluid'>
+      <div {{#if other_tasks }} style='height:150px' {{/if}}
+           class='{{#if other_tasks}}span9{{/if}}{{#unless other_tasks}}span12{{/unless}} new_task {{#if other_tasks}}well{{/if}}{{#unless other_tasks}}hero-unit{{/unless}}'>
+        <h2> Oh, I {{#if other_tasks}}Also{{/if}} Need To.. </h2>
+        <div class='input-append'>
+          <input type="text" id="new_task" class="new_task input-xxlarge" name="new_task"></input> 
+          <button type="button" class="ok btn"> Hell Yeah! </button>
+        </div>
+      </div>
+      {{#if other_tasks }}
+      <div class='span3 well' style='height:150px'>
+        <h2> Last Added: </h2>
+        {{> last_task }}
+      </div>
+      {{/if}}
+  </div>
+</template>

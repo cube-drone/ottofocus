@@ -1,0 +1,25 @@
+/* CSS declarations go here */
+
+.DELETED {
+  text-decoration: line-through;
+}
+
+.REVIEW {
+  color: red;
+}
+
+.CLOSED {
+  color: blue;
+}
+
+.OPEN {
+  color: green;
+}
+
+.all_tasks{
+  list-style-type: circle;
+}
+
+.selected{
+  list-style-type: disc;
+}
