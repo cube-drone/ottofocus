@@ -7,3 +7,6 @@ accounts-ui
 accounts-password
 underscore
 bootstrap
+accounts-github
+accounts-google
+accounts-twitter

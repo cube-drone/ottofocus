@@ -104,7 +104,7 @@ if (Meteor.is_client) {
   }
 
   var clearDeletedRecords = function() {
-    Tasks.remove({'status':'DELETED'});
+    Tasks.remove({'userId':Meteor.user()._id, 'status':'DELETED'});
     reOrder();
   }
 
